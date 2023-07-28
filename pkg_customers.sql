@@ -1,16 +1,3 @@
-create or replace package pkg_customers as
-procedure add_new_customer
-(p_first_name bank_customers.first_name%type,
-p_last_name bank_customers.last_name%type,
-p_father_name bank_customers.father_name%type,
-p_email bank_customers.email%type,
-p_mob_number bank_customers.mob_number%type,
-p_country_name varchar2,
-p_regdate bank_customers.regdate%type);
-end;
-
-/
-
 create or replace package body pkg_customers as
     procedure add_new_customer
         (p_first_name bank_customers.first_name%type,
@@ -18,7 +5,7 @@ create or replace package body pkg_customers as
         p_father_name bank_customers.father_name%type,
         p_email bank_customers.email%type,
         p_mob_number bank_customers.mob_number%type,
-        p_country_name varchar2,
+        p_country_name bank_countries.name%type,
         p_regdate bank_customers.regdate%type)is
         
         v_country_id bank_countries.country_id%type;
@@ -38,7 +25,9 @@ create or replace package body pkg_customers as
             v_resident:=0;
         end if;
         --insert data
-        insert into bank_customers values()
+        insert into bank_customers(first_name,last_name,father_name,email,mob_number,country_id,resident,regdate)
+        values(p_first_name,p_last_name,p_father_name,p_email,p_mob_number,v_country_id,v_resident,p_regdate);
+        commit;
     end;
 end;
 
